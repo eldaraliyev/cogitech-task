@@ -11,7 +11,7 @@
     <div class="post-footer">
       <span class="post author">{{ author(post.id) }}</span>
       <base-button class="remove" @click="removePost(post.id)">
-        <img src="@/assets/img/trash.svg" alt="">
+        <img src="@/assets/img/trash.svg">
       </base-button>
     </div>
   </div>
@@ -66,12 +66,7 @@ div {
       align-items: center;
       justify-content: space-between;
       margin-top: 1em;
-     .remove:hover::before{
-       content: 'Delete';
-       color: #ff0000;
-       margin: 0 14px;
      }
-      }
     
   }
 }
