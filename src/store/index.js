@@ -14,9 +14,6 @@ export default createStore({
     handleAuthors(state) {
       return state.authors
     },
-    /*  handleFilteredPosts(state) {
-       return state.filterPosts
-     } */
   },
   mutations: {
     setPosts(state, payload) {
@@ -25,12 +22,6 @@ export default createStore({
     setAuthors(state, payload) {
       state.authors = payload
     },
-    /* filterPosts(state, payload) {
-      const posts = state.posts
-        //console.log(posts.filter(item => item.userId === payload))
-      state.filterPosts = posts.filter(item => item.userId === payload)
-
-    }, */
     removePost(state, payload) {
       const posts = state.posts
       const target = posts.findIndex(item => item.id === payload)
@@ -47,15 +38,12 @@ export default createStore({
     async fetchAuthors(context) {
       const response = await fetch('https://jsonplaceholder.typicode.com/users')
       const resData = await response.json()
-      const authors = Array.from(resData, author => author.username)
+      const authors = Array.from(resData, author => author.name)
       context.commit('setAuthors', authors)
         //console.log(authors);
     },
     removePost(context, payload) {
       context.commit('removePost', payload)
     },
-    /* filterPosts(context, payload) {
-      context.commit('filterPosts', payload)
-    } */
   },
 })

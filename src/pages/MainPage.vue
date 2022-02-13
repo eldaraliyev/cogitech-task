@@ -2,24 +2,23 @@
   <div>
     <base-pagination></base-pagination>
     <base-card v-for="post in posts" :key="post.id">
-      <!-- <base-card v-for="post in posts" :key="post.id"> -->
       <span class="post author">{{ author(post.id) }}</span>
-      <!-- <span class="post author">{{ authors[post.userId] }}</span> -->
       <span class="post title">{{ post.title }}</span>
       <div class="post-body">
-        <span class="post body" ref="body">{{ post.body }}</span>
-        <base-button @click="test">
-          Show {{ post.body.length >20 ? "less" : "more" }}
+        <span class="post body">{{ post.body.slice(0,20) }}</span>
+        <span v-if="!showBody(post.id)" class="post body">{{ post.body.slice(21,-1) }}</span>
+        <base-button @click="showBody(post.id)">
+          Show {{ post.body.length > 19 ? "less" : "more" }}
         </base-button>
       </div>
-      <!-- <span class="post author">{{ post.id }}</span> -->
-      <base-button @click="removePost(post.id)">Remove post</base-button>
+      <base-button class="remove" @click="removePost(post.id)">Remove post</base-button>
     </base-card>
   </div>
 </template>
 <script>
 export default {
   name: "App",
+  
   computed: {
     posts() {
       const posts = this.$store.getters.handlePosts;
@@ -28,10 +27,6 @@ export default {
     authors() {
       return this.$store.getters.handleAuthors;
     },
-    /* author() {
-      const path = this.$route.params.id - 1;
-      return this.authors[path];
-    }, */
   },
   methods: {
     getPosts() {
@@ -48,22 +43,21 @@ export default {
       let to = page * perPage;
       return posts.slice(from, to);
     },
-    loadMore() {
-      let body = this.$refs.body;
-      body.forEach(item => {
-        this.$refs.body = item.innerText.slice(0,12)
-        console.log(item.innerText.slice(0,12));
-        
-      })
-    },
     author(idx) {
       let authors = this.authors
-      console.log(authors);
       return authors[idx%10]
     },
-    test() {
-      this.loadMore()
+    /* test(idx) {
+      let posts  = this.posts
+            console.log(posts[idx].body);
+    if (condition) {
+      
+    } */
+    showBody(idx) {
+      
+     return idx
     }
+    
   },
   created() {
     this.getPosts();
