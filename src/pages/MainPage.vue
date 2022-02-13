@@ -1,24 +1,32 @@
 <template>
   <div>
+    <base-card v-for="post in posts" :key="post.id" >
+      <the-post :post='post' :author="author" ></the-post>
+    </base-card>
     <base-pagination></base-pagination>
-    <base-card v-for="post in posts" :key="post.id">
-      <span class="post author">{{ author(post.id) }}</span>
+    <!-- <base-card v-for="post in posts" :key="post.id">
       <span class="post title">{{ post.title }}</span>
       <div class="post-body">
-        <span class="post body">{{ post.body.slice(0,20) }}</span>
-        <span v-if="!showBody(post.id)" class="post body">{{ post.body.slice(21,-1) }}</span>
+        <span class="post body">{{ post.body.slice(0, 20) }}</span>
+        <span v-if="!showBody(post.id)" class="post body">{{
+          post.body.slice(21, -1)
+        }}</span>
         <base-button @click="showBody(post.id)">
           Show {{ post.body.length > 19 ? "less" : "more" }}
         </base-button>
       </div>
-      <base-button class="remove" @click="removePost(post.id)">Remove post</base-button>
-    </base-card>
+      <span class="post author">{{ author(post.id) }}</span>
+      <base-button class="remove" @click="removePost(post.id)"
+        ><img src="@/assets/img/trash.svg"></base-button
+      >
+    </base-card> -->
   </div>
 </template>
 <script>
+import ThePost from "../components/posts/ThePost.vue";
 export default {
   name: "App",
-  
+  components: { ThePost },
   computed: {
     posts() {
       const posts = this.$store.getters.handlePosts;
@@ -33,9 +41,7 @@ export default {
       this.$store.dispatch("fetchPosts");
       this.$store.dispatch("fetchAuthors");
     },
-    removePost(idx) {
-      this.$store.dispatch("removePost", idx);
-    },
+    
     paginate(posts) {
       let page = this.$route.params.id;
       let perPage = 10;
@@ -44,20 +50,9 @@ export default {
       return posts.slice(from, to);
     },
     author(idx) {
-      let authors = this.authors
-      return authors[idx%10]
+      let authors = this.authors;
+      return authors[idx % 10];
     },
-    /* test(idx) {
-      let posts  = this.posts
-            console.log(posts[idx].body);
-    if (condition) {
-      
-    } */
-    showBody(idx) {
-      
-     return idx
-    }
-    
   },
   created() {
     this.getPosts();
@@ -69,28 +64,5 @@ div {
   width: 100%;
   margin: 0px auto;
   border-radius: 8px;
-
-  .post {
-    display: block;
-    margin-bottom: 0.5em;
-
-    &.author {
-      color: lighten($color: #000000, $amount: 10);
-      font-weight: 800;
-      &::before {
-        content: "Posted by: ";
-        color: lighten($color: #000000, $amount: 70);
-      }
-    }
-    &.title {
-      font-weight: 600;
-      color: lighten($color: #000000, $amount: 30);
-    }
-    &.body {
-      display: inline;
-      color: lighten($color: #000000, $amount: 50);
-      margin-right: .5em;
-    }
-  }
 }
 </style>
