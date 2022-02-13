@@ -14,13 +14,5 @@ button {
   &:active {
     color: lighten($color: #0000ff, $amount: 30);
   }
-  &.remove {
-    color: red;
-    margin-top: 1em;
-    &:hover,
-    &:active {
-    color: lighten($color: #ff0000, $amount: 30);
-    }
-  }
 }
 </style>
